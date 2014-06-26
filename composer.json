@@ -1,0 +1,39 @@
+{
+    "name": "rollerworks/search-jms-metadata",
+    "description": "JMS Metadata extension for RollerworksSearch",
+    "keywords": ["rollerworks", "search", "metadata"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastiaan Stok",
+            "email": "s.stok@rollercapes.net"
+        },
+        {
+            "name": "Community contributions",
+            "homepage": "https://github.com/Rollerworks/rollerworks-search-jms-metadata/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "rollerworks/search": "dev-package-split",
+        "doctrine/annotations": "~1.1",
+        "jms/metadata": "~1.1,>=1.1.1"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "~2.1@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rollerworks\\Component\\Search\\Metadata\\": "src/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
