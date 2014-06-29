@@ -28,40 +28,14 @@ class YamlFileDriver extends AbstractFileDriver
      */
     protected function loadMetadataFromFile(\ReflectionClass $class, $file)
     {
-        $classMetadata = new MergeableClassMetadata($class->name);
+        $className = $class->name;
+        $classMetadata = new MergeableClassMetadata($className);
         $data = Yaml::parse($file);
 
         foreach ($data as $propertyName => $property) {
-            if (!isset($property['name'])) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        'No "name" found in property metadata of class "%s" property "%s".',
-                        $class->name,
-                        $propertyName
-                    )
-                );
-            }
-
-            if (!isset($property['type'])) {
-                throw new InvalidArgumentException(
-                    sprintf(
-                        'No "type" found in property metadata of class "%s" property "%s".',
-                        $class->name,
-                        $propertyName
-                    )
-                );
-            }
-
-            $propertyMetadata = new PropertyMetadata($class->name, $propertyName);
-            $propertyMetadata->fieldName = $property['name'];
-            $propertyMetadata->required = (isset($property['required']) ? $property['required'] : false);
-            $propertyMetadata->type = $property['type'];
-
-            if (isset($property['options'])) {
-                $propertyMetadata->options = $property['options'];
-            }
-
-            $classMetadata->addPropertyMetadata($propertyMetadata);
+            $classMetadata->addPropertyMetadata(
+                $this->createPropertyMetadata($className, $propertyName, $property)
+            );
         }
 
         return $classMetadata;
@@ -75,5 +49,36 @@ class YamlFileDriver extends AbstractFileDriver
     protected function getExtension()
     {
         return 'yml';
+    }
+
+    private function createPropertyMetadata($className, $propertyName, array $property)
+    {
+        $this->assertArrayValueExists('name', $property, $className, $propertyName);
+        $this->assertArrayValueExists('type', $property, $className, $propertyName);
+
+        $propertyMetadata = new PropertyMetadata($className, $propertyName);
+        $propertyMetadata->fieldName = $property['name'];
+        $propertyMetadata->required = (isset($property['required']) ? $property['required'] : false);
+        $propertyMetadata->type = $property['type'];
+
+        if (isset($property['options'])) {
+            $propertyMetadata->options = $property['options'];
+        }
+
+        return $propertyMetadata;
+    }
+
+    private function assertArrayValueExists($key, array $property, $className, $propertyName)
+    {
+        if (!isset($property[$key])) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'No "%s" found in property metadata of class "%s" property "%s".',
+                    $key,
+                    $className,
+                    $propertyName
+                )
+            );
+        }
     }
 }
