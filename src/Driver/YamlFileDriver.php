@@ -26,7 +26,7 @@ class YamlFileDriver extends AbstractFileDriver
     /**
      * {@inheritdoc}
      */
-    protected function loadMetadataFromFile(\ReflectionClass $class, $file, $noReflection = false)
+    protected function loadMetadataFromFile(\ReflectionClass $class, $file)
     {
         $classMetadata = new MergeableClassMetadata($class->name);
         $data = Yaml::parse($file);
@@ -59,10 +59,6 @@ class YamlFileDriver extends AbstractFileDriver
 
             if (isset($property['options'])) {
                 $propertyMetadata->options = $property['options'];
-            }
-
-            if ($noReflection) {
-                $propertyMetadata->reflection = null;
             }
 
             $classMetadata->addPropertyMetadata($propertyMetadata);

@@ -60,22 +60,25 @@ class AnnotationDriverSpec extends ObjectBehavior
         $reader->getPropertyAnnotation($reflection, 'Rollerworks\Component\Search\Metadata\Field')->willReturn($annotationField2->getWrappedObject());
 
         $classMetadata = new MergeableClassMetadata($reflection->class);
-        $classMetadata->createdAt = null;
-        $classMetadata->reflection = null;
 
         $propertyMetadata = new PropertyMetadata($reflection->class, 'id');
-        $propertyMetadata->reflection = null;
         $propertyMetadata->fieldName = 'uid';
         $propertyMetadata->type = 'integer';
         $classMetadata->addPropertyMetadata($propertyMetadata);
 
         $propertyMetadata = new PropertyMetadata($reflection->class, 'name');
-        $propertyMetadata->reflection = null;
         $propertyMetadata->fieldName = 'username';
         $propertyMetadata->type = 'text';
         $classMetadata->addPropertyMetadata($propertyMetadata);
 
         $classReflection = new \ReflectionClass('Rollerworks\Component\Search\Metadata\Fixtures\User');
-        $this->loadMetadataForClass($classReflection, true)->shouldBeLike($classMetadata);
+        $this->loadMetadataForClass($classReflection, true)->shouldEqualMetadata($classMetadata);
+    }
+
+    public function getMatchers()
+    {
+        return array(
+            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata')
+        );
     }
 }

@@ -36,24 +36,16 @@ abstract class AbstractFileDriver implements AdvancedDriverInterface
 
     /**
      * @param \ReflectionClass $class
-     * @param bool             $test  Don't use this parameter, its only used for testing
      *
      * @return \Metadata\ClassMetadata
      */
-    public function loadMetadataForClass(\ReflectionClass $class, $test = false)
+    public function loadMetadataForClass(\ReflectionClass $class)
     {
         if (null === $path = $this->locator->findFileForClass($class, $this->getExtension())) {
             return null;
         }
 
-        $classMetadata = $this->loadMetadataFromFile($class, $path, $test);
-
-        if ($test) {
-            $classMetadata->reflection = null;
-            $classMetadata->createdAt = null;
-        }
-
-        return $classMetadata;
+        return $this->loadMetadataFromFile($class, $path);
     }
 
     /**
@@ -69,11 +61,10 @@ abstract class AbstractFileDriver implements AdvancedDriverInterface
      *
      * @param \ReflectionClass $class
      * @param string           $file
-     * @param bool             $test
      *
      * @return \MetaData\ClassMetadata|null
      */
-    abstract protected function loadMetadataFromFile(\ReflectionClass $class, $file, $test = false);
+    abstract protected function loadMetadataFromFile(\ReflectionClass $class, $file);
 
     /**
      * Returns the extension of the file.

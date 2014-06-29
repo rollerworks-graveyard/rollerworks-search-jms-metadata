@@ -28,6 +28,11 @@
             "Rollerworks\\Component\\Search\\Metadata\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Rollerworks\\Component\\Search\\Metadata\\Spec\\": "spec/"
+        }
+    },
     "config": {
         "bin-dir": "bin"
     },

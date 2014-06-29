@@ -40,25 +40,21 @@ class XmlFileDriverSpec extends ObjectBehavior
         $locator->findFileForClass($reflection, 'xml')->willReturn(__DIR__ . '/../../../../../Fixtures/Config/Entity.User.xml');
 
         $classMetadata = new MergeableClassMetadata($reflection->name);
-        $classMetadata->createdAt = null;
-        $classMetadata->reflection = null;
 
         $propertyMetadata = new PropertyMetadata($reflection->name, 'id');
-        $propertyMetadata->reflection = null;
         $propertyMetadata->fieldName = 'uid';
         $propertyMetadata->required = true;
         $propertyMetadata->type = 'integer';
         $classMetadata->addPropertyMetadata($propertyMetadata);
 
         $propertyMetadata = new PropertyMetadata($reflection->name, 'name');
-        $propertyMetadata->reflection = null;
         $propertyMetadata->fieldName = 'username';
         $propertyMetadata->type = 'text';
         $propertyMetadata->options = array('name' => 'doctor', 'last' => array('who', 'zeus'));
 
         $classMetadata->addPropertyMetadata($propertyMetadata);
 
-        $this->loadMetadataForClass($reflection, true)->shouldBeLike($classMetadata);
+        $this->loadMetadataForClass($reflection)->shouldEqualMetadata($classMetadata);
     }
 
     public function it_validates_the_metadata(AdvancedFileLocatorInterface $locator)
@@ -69,5 +65,12 @@ class XmlFileDriverSpec extends ObjectBehavior
         $locator->findFileForClass($reflection, 'xml')->willReturn($file = __DIR__.'/../../../../../Fixtures/Config/Entity.User-invalid.xml');
 
         $this->shouldThrow(new InvalidArgumentException(sprintf('Unable to parse file "%s".', $file)))->during('loadMetadataForClass', array($reflection, true));
+    }
+
+    public function getMatchers()
+    {
+        return array(
+            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata')
+        );
     }
 }
