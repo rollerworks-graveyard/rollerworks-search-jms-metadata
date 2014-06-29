@@ -17,6 +17,8 @@ use PhpSpec\ObjectBehavior;
 use Rollerworks\Component\Search\Exception\InvalidArgumentException;
 use Rollerworks\Component\Search\Metadata\PropertyMetadata;
 
+require __DIR__.'/../../../../../../vendor/autoload.php';
+
 // Autoloading is not possible for this
 require_once __DIR__.'/../../../../../Fixtures/Entity/User.php';
 require_once __DIR__.'/../../../../../Fixtures/Entity/Group.php';
@@ -42,25 +44,21 @@ class YamlFileDriverSpec extends ObjectBehavior
         $locator->findFileForClass($reflection, 'yml')->willReturn(__DIR__.'/../../../../../Fixtures/Config/Entity.User.yml');
 
         $classMetadata = new MergeableClassMetadata($reflection->name);
-        $classMetadata->createdAt = null;
-        $classMetadata->reflection = null;
 
         $propertyMetadata = new PropertyMetadata($reflection->name, 'id');
-        $propertyMetadata->reflection = null;
         $propertyMetadata->fieldName = 'uid';
         $propertyMetadata->required = true;
         $propertyMetadata->type = 'integer';
         $classMetadata->addPropertyMetadata($propertyMetadata);
 
         $propertyMetadata = new PropertyMetadata($reflection->name, 'name');
-        $propertyMetadata->reflection = null;
         $propertyMetadata->fieldName = 'username';
         $propertyMetadata->type = 'text';
         $propertyMetadata->options = array('name' => 'doctor', 'last' => array('who', 'zeus'));
 
         $classMetadata->addPropertyMetadata($propertyMetadata);
 
-        $this->loadMetadataForClass($reflection, true)->shouldBeLike($classMetadata);
+        $this->loadMetadataForClass($reflection)->shouldEqualMetadata($classMetadata);
     }
 
     public function it_validates_the_metadata(AdvancedFileLocatorInterface $locator)
@@ -70,6 +68,20 @@ class YamlFileDriverSpec extends ObjectBehavior
         $reflection = new \ReflectionClass('Rollerworks\Component\Search\Metadata\Fixtures\User');
         $locator->findFileForClass($reflection, 'yml')->willReturn(__DIR__.'/../../../../../Fixtures/Config/Entity.User-invalid.yml');
 
-        $this->shouldThrow(new InvalidArgumentException('No "type" found in property metadata of class "Rollerworks\Component\Search\Metadata\Fixtures\User" property "name".'))->during('loadMetadataForClass', array($reflection, true));
+        $this->shouldThrow(
+            new InvalidArgumentException(
+                'No "type" found in property metadata of class "Rollerworks\Component\Search\Metadata\Fixtures\User" property "name".'
+            )
+        )->during(
+            'loadMetadataForClass',
+            array($reflection, true)
+        );
+    }
+
+    public function getMatchers()
+    {
+        return array(
+            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata')
+        );
     }
 }

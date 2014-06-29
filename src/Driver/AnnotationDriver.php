@@ -40,20 +40,11 @@ class AnnotationDriver implements DriverInterface
     }
 
     /**
-     * @param \ReflectionClass $class
-     * @param bool             $noReflection Don't use this parameter, its only used for testing
-     *
-     * @return MergeableClassMetadata|null
+     * {@inheritdoc}
      */
-    public function loadMetadataForClass(\ReflectionClass $class, $noReflection = false)
+    public function loadMetadataForClass(\ReflectionClass $class)
     {
         $classMetadata = new MergeableClassMetadata($class->name);
-
-        if ($noReflection) {
-            $classMetadata->reflection = null;
-            $classMetadata->createdAt = null;
-        }
-
         $hasMetadata = false;
 
         foreach ($class->getProperties() as $reflectionProperty) {
@@ -69,10 +60,6 @@ class AnnotationDriver implements DriverInterface
                 $propertyMetadata->required = $annotation->isRequired();
                 $propertyMetadata->type = $annotation->getType();
                 $propertyMetadata->options = $annotation->getOptions();
-
-                if ($noReflection) {
-                    $propertyMetadata->reflection = null;
-                }
 
                 $classMetadata->addPropertyMetadata($propertyMetadata);
                 $hasMetadata = true;

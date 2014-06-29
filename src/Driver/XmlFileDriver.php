@@ -27,13 +27,13 @@ class XmlFileDriver extends AbstractFileDriver
     /**
      * {@inheritdoc}
      */
-    protected function loadMetadataFromFile(\ReflectionClass $class, $file, $noReflection = false)
+    protected function loadMetadataFromFile(\ReflectionClass $class, $file)
     {
         $xml = $this->parseFile($file);
         $classMetadata = new MergeableClassMetadata($class->name);
 
         foreach ($xml as $property) {
-            $propertyMetadata = $this->parseProperty($class, $property, $noReflection);
+            $propertyMetadata = $this->parseProperty($class, $property);
             $classMetadata->addPropertyMetadata($propertyMetadata);
         }
 
@@ -53,24 +53,18 @@ class XmlFileDriver extends AbstractFileDriver
     /**
      * @param \ReflectionClass $class
      * @param SimpleXMLElement $property
-     * @param bool             $noReflection
      *
      * @return PropertyMetadata
      */
-    private function parseProperty(\ReflectionClass $class, SimpleXMLElement $property, $noReflection)
+    private function parseProperty(\ReflectionClass $class, SimpleXMLElement $property)
     {
         $propertyMetadata = new PropertyMetadata($class->name, (string) $property['id']);
-
         $propertyMetadata->fieldName = (string) $property['name'];
         $propertyMetadata->required = (isset($property['required']) ? XmlUtils::phpize($property['required']) : false);
         $propertyMetadata->type = (string) $property['type'];
 
         if (isset($property->option)) {
             $propertyMetadata->options = $property->getArgumentsAsPhp('option');
-        }
-
-        if ($noReflection) {
-            $propertyMetadata->reflection = null;
         }
 
         return $propertyMetadata;
