@@ -14,7 +14,6 @@ namespace spec\Rollerworks\Component\Search\Metadata;
 use Metadata\ClassMetadata;
 use Metadata\MetadataFactoryInterface;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Rollerworks\Component\Search\Metadata\PropertyMetadata;
 use Rollerworks\Component\Search\Metadata\SearchField;
 

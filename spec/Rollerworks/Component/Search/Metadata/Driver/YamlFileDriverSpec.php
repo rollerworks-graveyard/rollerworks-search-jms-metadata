@@ -25,18 +25,18 @@ require_once __DIR__.'/../../../../../Fixtures/Entity/Group.php';
 
 class YamlFileDriverSpec extends ObjectBehavior
 {
-    public function let(AdvancedFileLocatorInterface $locator)
+    function let(AdvancedFileLocatorInterface $locator)
     {
         $this->beConstructedWith($locator);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('Rollerworks\Component\Search\Metadata\Driver\YamlFileDriver');
         $this->shouldImplement('Metadata\Driver\DriverInterface');
     }
 
-    public function it_reads_the_metadata(AdvancedFileLocatorInterface $locator)
+    function it_reads_the_metadata(AdvancedFileLocatorInterface $locator)
     {
         $this->beConstructedWith($locator);
 
@@ -61,7 +61,7 @@ class YamlFileDriverSpec extends ObjectBehavior
         $this->loadMetadataForClass($reflection)->shouldEqualMetadata($classMetadata);
     }
 
-    public function it_validates_the_metadata(AdvancedFileLocatorInterface $locator)
+    function it_validates_the_metadata(AdvancedFileLocatorInterface $locator)
     {
         $this->beConstructedWith($locator);
 
@@ -78,10 +78,10 @@ class YamlFileDriverSpec extends ObjectBehavior
         );
     }
 
-    public function getMatchers()
+    function getMatchers()
     {
         return array(
-            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata')
+            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata'),
         );
     }
 }

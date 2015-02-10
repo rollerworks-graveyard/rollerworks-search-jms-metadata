@@ -42,7 +42,7 @@ abstract class AbstractFileDriver implements AdvancedDriverInterface
     public function loadMetadataForClass(\ReflectionClass $class)
     {
         if (null === $path = $this->locator->findFileForClass($class, $this->getExtension())) {
-            return null;
+            return;
         }
 
         return $this->loadMetadataFromFile($class, $path);

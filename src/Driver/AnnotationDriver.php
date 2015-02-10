@@ -67,7 +67,7 @@ class AnnotationDriver implements DriverInterface
         }
 
         if (!$hasMetadata) {
-            return null;
+            return;
         }
 
         return $classMetadata;
