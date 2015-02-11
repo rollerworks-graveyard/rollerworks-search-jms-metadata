@@ -28,18 +28,18 @@ require_once __DIR__.'/../../../../../Fixtures/Entity/Group.php';
 
 class AnnotationDriverSpec extends ObjectBehavior
 {
-    public function let(Reader $reader)
+    function let(Reader $reader)
     {
         $this->beConstructedWith($reader);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('Rollerworks\Component\Search\Metadata\Driver\AnnotationDriver');
         $this->shouldImplement('Metadata\Driver\DriverInterface');
     }
 
-    public function it_reads_the_metadata(Reader $reader, AnnotationField $annotationField, AnnotationField $annotationField2)
+    function it_reads_the_metadata(Reader $reader, AnnotationField $annotationField, AnnotationField $annotationField2)
     {
         $this->beConstructedWith($reader);
 
@@ -75,10 +75,10 @@ class AnnotationDriverSpec extends ObjectBehavior
         $this->loadMetadataForClass($classReflection, true)->shouldEqualMetadata($classMetadata);
     }
 
-    public function getMatchers()
+    function getMatchers()
     {
         return array(
-            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata')
+            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata'),
         );
     }
 }

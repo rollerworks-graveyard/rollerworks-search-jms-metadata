@@ -21,23 +21,23 @@ require __DIR__.'/../../../../../../vendor/autoload.php';
 
 class XmlFileDriverSpec extends ObjectBehavior
 {
-    public function let(AdvancedFileLocatorInterface $locator)
+    function let(AdvancedFileLocatorInterface $locator)
     {
         $this->beConstructedWith($locator);
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('Rollerworks\Component\Search\Metadata\Driver\XmlFileDriver');
         $this->shouldImplement('Metadata\Driver\DriverInterface');
     }
 
-    public function it_reads_the_metadata(AdvancedFileLocatorInterface $locator)
+    function it_reads_the_metadata(AdvancedFileLocatorInterface $locator)
     {
         $this->beConstructedWith($locator);
 
         $reflection = new \ReflectionClass('Rollerworks\Component\Search\Metadata\Fixtures\User');
-        $locator->findFileForClass($reflection, 'xml')->willReturn(__DIR__ . '/../../../../../Fixtures/Config/Entity.User.xml');
+        $locator->findFileForClass($reflection, 'xml')->willReturn(__DIR__.'/../../../../../Fixtures/Config/Entity.User.xml');
 
         $classMetadata = new MergeableClassMetadata($reflection->name);
 
@@ -57,7 +57,7 @@ class XmlFileDriverSpec extends ObjectBehavior
         $this->loadMetadataForClass($reflection)->shouldEqualMetadata($classMetadata);
     }
 
-    public function it_validates_the_metadata(AdvancedFileLocatorInterface $locator)
+    function it_validates_the_metadata(AdvancedFileLocatorInterface $locator)
     {
         $this->beConstructedWith($locator);
 
@@ -67,10 +67,10 @@ class XmlFileDriverSpec extends ObjectBehavior
         $this->shouldThrow(new InvalidArgumentException(sprintf('Unable to parse file "%s".', $file)))->during('loadMetadataForClass', array($reflection, true));
     }
 
-    public function getMatchers()
+    function getMatchers()
     {
         return array(
-            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata')
+            'equalMetadata' => array('Rollerworks\Component\Search\Metadata\Spec\MetadataMatcher', 'equalMetadata'),
         );
     }
 }
