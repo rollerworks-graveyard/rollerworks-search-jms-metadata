@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!-- The information in this valid invalid for a reason -->
 <properties>
     <property foo="id" name="uid" type="integer" required="true" />
     <property id="name" name="username" type="text">

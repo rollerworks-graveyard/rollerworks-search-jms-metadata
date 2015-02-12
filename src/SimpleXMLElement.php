@@ -16,7 +16,7 @@ use Rollerworks\Component\Search\Util\XmlUtils;
 /**
  * SimpleXMLElement class.
  *
- * Sebastiaan Stok <s.stok@rollerscapes.net>
+ * @internal
  */
 class SimpleXMLElement extends \SimpleXMLElement
 {

@@ -15,6 +15,8 @@ use Metadata\PropertyMetadata as BasePropertyMetadata;
 
 /**
  * PropertyMetadata.
+ *
+ * @internal
  */
 class PropertyMetadata extends BasePropertyMetadata
 {

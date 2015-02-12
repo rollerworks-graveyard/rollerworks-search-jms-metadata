@@ -9,11 +9,12 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Rollerworks\Component\Search\Metadata\Fixtures;
+namespace Rollerworks\Component\Search\Tests\Metadata\Fixtures\Entity;
 
-class User
+use Rollerworks\Component\Search\Metadata as Search;
+
+class Group
 {
     public $id;
-
     public $name;
 }

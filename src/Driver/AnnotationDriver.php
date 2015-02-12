@@ -14,7 +14,7 @@ namespace Rollerworks\Component\Search\Metadata\Driver;
 use Doctrine\Common\Annotations\Reader;
 use Metadata\Driver\DriverInterface;
 use Metadata\MergeableClassMetadata;
-use Rollerworks\Component\Search\Metadata\Field;
+use Rollerworks\Component\Search\Mapping\Field;
 use Rollerworks\Component\Search\Metadata\PropertyMetadata;
 
 /**
@@ -50,7 +50,7 @@ class AnnotationDriver implements DriverInterface
         foreach ($class->getProperties() as $reflectionProperty) {
             $annotation = $this->reader->getPropertyAnnotation(
                 $reflectionProperty,
-                'Rollerworks\Component\Search\Metadata\Field'
+                'Rollerworks\Component\Search\Mapping\Field'
             );
 
             if (null !== $annotation) {

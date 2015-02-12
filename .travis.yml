@@ -24,9 +24,6 @@ sudo: false
 cache:
     directories:
         - $HOME/.composer/cache
-        
-before_install:
-    - composer selfupdate
 
 install:
     - export COMPOSER_ROOT_VERSION=dev-master
@@ -35,4 +32,4 @@ install:
     - if [ "$DEPENDENCIES" == "low" ]; then travis_retry composer update --prefer-lowest; fi;
 
 script:
-    - bin/phpspec run
+    - bin/phpunit
