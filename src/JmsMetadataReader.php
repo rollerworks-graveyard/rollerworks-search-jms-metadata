@@ -45,8 +45,12 @@ class JmsMetadataReader implements MetadataReaderInterface
     public function getSearchFields($class)
     {
         $fields = array();
-
         $metadata = $this->metadataFactory->getMetadataForClass($class);
+
+        if (!$metadata) {
+            return $fields;
+        }
+
         foreach ($metadata->propertyMetadata as $property => $field) {
             /** @var PropertyMetadata $field */
             $fields[$field->fieldName] = new SearchField(

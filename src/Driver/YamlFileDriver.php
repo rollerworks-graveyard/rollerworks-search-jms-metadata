@@ -30,11 +30,11 @@ class YamlFileDriver extends AbstractFileDriver
     {
         $className = $class->name;
         $classMetadata = new MergeableClassMetadata($className);
-        $data = Yaml::parse($file);
+        $data = Yaml::parse(file_get_contents($file));
 
         foreach ($data as $propertyName => $property) {
             $classMetadata->addPropertyMetadata(
-                $this->createPropertyMetadata($className, $propertyName, $property)
+                $this->createPropertyMetadata($file, $className, $propertyName, $property)
             );
         }
 
@@ -51,10 +51,10 @@ class YamlFileDriver extends AbstractFileDriver
         return 'yml';
     }
 
-    private function createPropertyMetadata($className, $propertyName, array $property)
+    private function createPropertyMetadata($file, $className, $propertyName, array $property)
     {
-        $this->assertArrayValueExists('name', $property, $className, $propertyName);
-        $this->assertArrayValueExists('type', $property, $className, $propertyName);
+        $this->assertArrayValueExists('name', $property, $file, $className, $propertyName);
+        $this->assertArrayValueExists('type', $property, $file, $className, $propertyName);
 
         $propertyMetadata = new PropertyMetadata($className, $propertyName);
         $propertyMetadata->fieldName = $property['name'];
@@ -68,15 +68,16 @@ class YamlFileDriver extends AbstractFileDriver
         return $propertyMetadata;
     }
 
-    private function assertArrayValueExists($key, array $property, $className, $propertyName)
+    private function assertArrayValueExists($key, array $property, $file, $className, $propertyName)
     {
         if (!isset($property[$key])) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'No "%s" found in property metadata of class "%s" property "%s".',
+                    'No "%s" found in property metadata of class "%s" property "%s", loaded from file "%s".',
                     $key,
                     $className,
-                    $propertyName
+                    $propertyName,
+                    $file
                 )
             );
         }
