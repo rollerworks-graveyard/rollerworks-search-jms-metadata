@@ -10,5 +10,5 @@ core.autocrlf=lf
 .php_cs export-ignore
 phpspec.yml export-ignore
 
-spec/* export-ignore
+tests/* export-ignore
 doc/* export-ignore
