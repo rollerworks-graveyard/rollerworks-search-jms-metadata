@@ -3,6 +3,8 @@ RollerworksSearch JMS Metadata extension
 
 This package provides a compatible Metadata reader for [RollerworksSearch][1].
 
+**This package is deprecated and will not be updated anymore!! Use [rollerworks-search-metadata](https://github.com/rollerworks/rollerworks-search-metadata) instead.**
+
 The Metadata reader uses the [JMS Metadata component][2] for loading Metadata
 from e.g. an XML document, a YAML file or PHP Annotations.
 
